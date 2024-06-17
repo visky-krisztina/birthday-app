@@ -9,8 +9,8 @@ Steps to run the project locally:
 5. cd ..
 6. npm i
 7. create a .env file
-8. Write inside: Add the NODE_ENV and MongoDb Atlas account connection string into your application code, like example below. Please visit https://www.mongodb.com/docs/guides/atlas/connection-string/, create an atlas account if you don't have one, and paste the correct connection string. Please keep the names of the variables.
-Example:
+8. Write inside: Add the NODE_ENV and MongoDb Atlas account connection string into your application code, like in the example below. Please visit https://www.mongodb.com/docs/guides/atlas/connection-string/, create an atlas account if you don't have one, and paste the correct connection string. Please keep the names of the variables. 
+
 NODE_ENV=development
 MONGO_URL=mongodb+srv://<user>:<password>@<appName>.j9jfe2j.mongodb.net/birthday-DB?retryWrites=true&w=majority
 
