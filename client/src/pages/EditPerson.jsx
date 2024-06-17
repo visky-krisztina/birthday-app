@@ -20,7 +20,7 @@ export const action = async ({ request, params }) => {
 	try {
 		await customFetch.patch(`/people/${params.id}`, data);
 		toast.success("Person edited successfully!");
-		return redirect("/dashboard/all-persons");
+		return redirect("/dashboard");
 	} catch (error) {
 		toast.error(error.response.data.msg);
 		return error;
