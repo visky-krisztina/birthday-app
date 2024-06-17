@@ -10,11 +10,11 @@ Steps to run the project locally:
 6. npm i
 7. create a .env file
 8. Write inside: Add the NODE_ENV and MongoDb Atlas account connection string into your application code, like example below. Please visit https://www.mongodb.com/docs/guides/atlas/connection-string/, create an atlas account if you don't have one, and paste the correct connection string. Please keep the names of the variables.
-
+Example:
 NODE_ENV=development
-MONGO_URL=mongodb+srv://<user>:<password>@taskmanager.j9jfe2j.mongodb.net/?retryWrites=true&w=majority&appName=TaskManager
+MONGO_URL=mongodb+srv://<user>:<password>@<appName>.j9jfe2j.mongodb.net/birthday-DB?retryWrites=true&w=majority
 
-10. In the terminal: node populate.js
+10. Before this step, please be sure there is no other collection with the name of birthday-app in the mongo database, if it is, delete it. Then in the terminal: node populate.js
     //this will populate your database
 11. npm run dev
 
