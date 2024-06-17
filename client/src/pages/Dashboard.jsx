@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 
 import { Navbar, BigSidebar, SmallSidebar } from "../components";
 
@@ -16,6 +16,7 @@ const checkDefaultTheme = () => {
 const Dashboard = () => {
 	const [showSidebar, setShowSidebar] = useState(false);
 	const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
+	const navigation = useNavigation();
 
 	const toggleDarkTheme = () => {
 		const newDarkTheme = !isDarkTheme;
@@ -27,7 +28,7 @@ const Dashboard = () => {
 	const toggleSidebar = () => {
 		setShowSidebar(!showSidebar);
 	};
-
+	const isPageLoading = navigation.state === "loading";
 	return (
 		<DashboardContext.Provider
 			value={{
@@ -42,9 +43,7 @@ const Dashboard = () => {
 				<BigSidebar />
 				<div>
 					<Navbar />
-					<div className='dashboard-page'>
-						<Outlet />
-					</div>
+					<div className='dashboard-page'>{isPageLoading ? <div className='loading' /> : <Outlet />}</div>
 				</div>
 			</div>
 		</DashboardContext.Provider>
