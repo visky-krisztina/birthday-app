@@ -8,7 +8,7 @@ const Error = () => {
 	if (error.status === 404) {
 		return (
 			<div className='error-container'>
-				<div>
+				<div className='error-info'>
 					<img src={img} alt='not found' />
 					<h3>Ohh! page not found</h3>
 					<p>We can not seem to find the page you are looking for.</p>

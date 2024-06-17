@@ -49,7 +49,7 @@
 .nav-link {
 	display: flex;
 	align-items: center;
-	color: var(--grey-700);
+	color: var(--grey-400);
 	padding: 1rem 0;
 	font-size: 1.5rem;
 	text-transform: capitalize;

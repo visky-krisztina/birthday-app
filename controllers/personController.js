@@ -15,18 +15,15 @@ export const createPerson = async (req, res) => {
 export const getPerson = async (req, res) => {
 	const { id } = req.params;
 	const person = await Person.findById(id);
-	if (!person) {
-		throw new NotFoundError(`No person found with id ${id}`);
-	}
+	if (!person) throw new NotFoundError(`No person found with id ${id}`);
+
 	res.status(StatusCodes.OK).json({ person });
 };
 
 export const updatePerson = async (req, res) => {
 	const { id } = req.params;
 	const updatedPerson = await Person.findByIdAndUpdate(id, req.body, { new: true });
-	if (!updatedPerson) {
-		return res.status(404).json({ msg: `No person with id ${id}` });
-	}
+	if (!updatedPerson) throw new NotFoundError(`No person found with id ${id}`);
 
 	res.status(StatusCodes.OK).json({ msg: "Person data modified!", person: updatedPerson });
 };
@@ -34,9 +31,7 @@ export const updatePerson = async (req, res) => {
 export const deletePerson = async (req, res) => {
 	const { id } = req.params;
 	const removedPerson = await Person.findByIdAndDelete(id);
-	if (!removedPerson) {
-		return res.status(404).json({ msg: `no person with id ${id}` });
-	}
+	if (!removedPerson) throw new NotFoundError(`No person found with id ${id}`);
 
 	res.status(StatusCodes.OK).json({ msg: "person deleted", person: removedPerson });
 };

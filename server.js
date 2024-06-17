@@ -12,6 +12,9 @@ import mongoose from "mongoose";
 //routers
 import personRouter from "./routes/peopleRoutes.js";
 
+//middleware
+import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
+
 if (process.env.NODE_ENV === "development") {
 	app.use(morgan("dev"));
 }
@@ -30,10 +33,7 @@ app.use("*", (req, res) => {
 });
 
 //Error Middleware - has to be the last one!
-app.use((err, req, res, next) => {
-	console.log(err);
-	res.status(500).json({ msg: "Something else went wrong.." });
-});
+app.use(errorHandlerMiddleware);
 
 try {
 	await mongoose.connect(process.env.MONGO_URL);

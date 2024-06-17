@@ -12,7 +12,7 @@ const LandingPage = () => {
 				</h2>
 			</nav>
 
-			<Link to='/dashboard' className='btn'>
+			<Link to='/dashboard' className='btn main-btn'>
 				Check it out!
 			</Link>
 		</div>

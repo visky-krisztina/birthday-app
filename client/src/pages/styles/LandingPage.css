@@ -32,7 +32,7 @@ nav h2 {
 	width: 7rem;
 }
 
-.btn {
+.main-btn {
 	width: 32rem;
 	font-weight: 700;
 	font-size: 4rem;
@@ -46,7 +46,7 @@ nav h2 {
 
 /* Responsive Styles */
 @media (max-width: 1200px) {
-	.btn {
+	.main-btn {
 		width: 24rem;
 		font-size: 3rem;
 	}
@@ -64,14 +64,14 @@ nav h2 {
 		width: 7rem;
 	}
 
-	.btn {
+	.main-btn {
 		width: 20rem;
 		font-size: 2.5rem;
 	}
 }
 
 @media (max-width: 480px) {
-	.btn {
+	.main-btn {
 		width: 15rem;
 		font-size: 2rem;
 	}

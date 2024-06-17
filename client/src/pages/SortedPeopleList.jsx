@@ -1,5 +1,6 @@
+import SortedPeopleContainer from "../components/SortedPeopleContainer";
+
 import { toast } from "react-toastify";
-import { PeopleContainer } from "../components";
 import customFetch from "../utils/customFetch";
 import { useLoaderData } from "react-router-dom";
 import { useContext, createContext } from "react";
@@ -16,16 +17,15 @@ export const loader = async () => {
 	}
 };
 
-const AllPeopleContext = createContext();
+const SortedPeopleContext = createContext();
 
-const AllPersons = () => {
+const SortedPeopleList = () => {
 	const { people } = useLoaderData();
 	return (
-		<AllPeopleContext.Provider value={people}>
-			<h2>All the people from Datavid: </h2>
-			<PeopleContainer />
-		</AllPeopleContext.Provider>
+		<SortedPeopleContext.Provider value={people}>
+			<SortedPeopleContainer />
+		</SortedPeopleContext.Provider>
 	);
 };
-export const useAllPeopleContext = () => useContext(AllPeopleContext);
-export default AllPersons;
+export const useSortedPeopleContext = () => useContext(SortedPeopleContext);
+export default SortedPeopleList;
