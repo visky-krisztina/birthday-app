@@ -9,7 +9,7 @@ export const loader = async () => {
 	try {
 		const response = await customFetch.get("/people");
 		const data = response.data;
-		//console.log("Fetched data:", data);
+		console.log("Fetched data:", data);
 		return data;
 	} catch (error) {
 		toast.error(error?.response?.data?.msg || "Error fetching people");

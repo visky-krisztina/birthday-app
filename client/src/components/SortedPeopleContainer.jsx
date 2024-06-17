@@ -1,80 +1,90 @@
+import { useState, useEffect } from "react";
 import Person from "./Person";
 import { useSortedPeopleContext } from "../pages/SortedPeopleList";
-// import { FaBirthdayCake } from "react-icons/fa";
+import Pagination from "./Pagination";
 import "./styles/SortedPeopleContainer.css";
 import logo from "../assets/images/present.svg";
 
 const SortedPeopleContainer = () => {
 	const people = useSortedPeopleContext();
+
 	const today = new Date();
-	const currentMonth = today.getMonth();
-	const nextMonth = (currentMonth + 1) % 12;
+	const itemsPerPage = 3;
+	const [currentPage, setCurrentPage] = useState(1);
+	const [sortedPeople, setSortedPeople] = useState([]);
 
 	// Function to calculate days until the next birthday
 	const daysUntilNextBirthday = (birthDate) => {
-		const nextBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
-		if (nextBirthday < today) {
-			nextBirthday.setFullYear(today.getFullYear() + 1);
-		}
-		return Math.floor((nextBirthday - today) / (1000 * 60 * 60 * 24));
+		const birthDateThisYear = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+		const diff = birthDateThisYear.getTime() - today.getTime();
+		return diff > 0 ? Math.ceil(diff / (1000 * 60 * 60 * 24)) : diff === 0 ? -0.5 : 10000;
 	};
 
-	const sortedPeople = [...people]
-		.filter((person) => {
-			const birthDate = new Date(person.birthDate);
-			const personMonth = birthDate.getMonth();
-			const personDay = birthDate.getDate();
-
-			// Include persons whose birthday is this month or next month
-			if (personMonth === currentMonth && personDay >= today.getDate()) {
-				return true;
-			} else if (personMonth === nextMonth) {
-				return true;
-			}
-			return false;
-		})
-		.sort((a, b) => {
-			const dateA = new Date(a.birthDate);
-			const dateB = new Date(b.birthDate);
-			return daysUntilNextBirthday(dateA) - daysUntilNextBirthday(dateB);
+	useEffect(() => {
+		// Sort people by upcoming birthdays
+		const sorted = [...people].sort((a, b) => {
+			const daysUntilA = daysUntilNextBirthday(new Date(a.birthDate));
+			const daysUntilB = daysUntilNextBirthday(new Date(b.birthDate));
+			return daysUntilA - daysUntilB;
 		});
 
-	// If there are fewer than 4 people after filtering, add more to the list to make it up to 4
-	while (sortedPeople.length < 4 && people.length > sortedPeople.length) {
-		const remainingPeople = people.filter((person) => !sortedPeople.includes(person));
-		const nextPerson = remainingPeople.sort((a, b) => {
-			const dateA = new Date(a.birthDate);
-			const dateB = new Date(b.birthDate);
-			return daysUntilNextBirthday(dateA) - daysUntilNextBirthday(dateB);
-		})[0];
-		sortedPeople.push(nextPerson);
-	}
+		setSortedPeople(sorted);
+	}, [people]);
 
-	if (sortedPeople.length === 0) {
+	const upcomingUntilJanuary1 = sortedPeople.filter((person) => {
+		const birthDate = new Date(person.birthDate);
 		return (
-			<div>
-				<h2> No people to display..</h2>
-			</div>
+			(birthDate.getMonth() === today.getMonth() && birthDate.getDate() > today.getDate()) ||
+			birthDate.getMonth() > today.getMonth()
 		);
-	}
+	});
+
+	// Pagination logic
+	const totalPages = Math.ceil(upcomingUntilJanuary1.length / itemsPerPage);
+
+	const handlePreviousPage = () => {
+		setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+	};
+
+	const handleNextPage = () => {
+		setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+	};
+
+	const startIndex = (currentPage - 1) * itemsPerPage;
+	const endIndex = startIndex + itemsPerPage;
+	const slicedBirtdayArray = upcomingUntilJanuary1.slice(1);
+	const paginatedPeople = slicedBirtdayArray.slice(startIndex, endIndex);
+
+	// Adjust index to start from 1
+	const startFromIndex = startIndex + 1;
+
 	return (
 		<div className='displayBirthdays'>
-			<h2>Who is gonna have birthday very soon?</h2>
+			<h3>Who is gonna have birthday very soon?</h3>
 			<div className='displayInfo'>
 				<img src={logo} alt='birthday' className='b-icon' />
-
-				<div className='birthdayPerson'>
-					<Person {...sortedPeople[0]} />
-				</div>
+				<div className='birthdayPerson'>{paginatedPeople.length > 0 && <Person {...upcomingUntilJanuary1[0]} />}</div>
 			</div>
-			<h2>And who is/are next in line?</h2>
-
-			<div className='peopleContainer'>
-				{sortedPeople.slice(1).map((person, index) => (
-					<Person key={person._id} index={index + 1} {...person} />
-				))}
+			<h4>And who is/are next in line?</h4>
+			<div className='container'>
+				<div className='peopleContainer'>
+					{paginatedPeople.map((person, index) => (
+						<Person
+							key={person._id}
+							index={startFromIndex + index} // Calculate sequential index starting from 1
+							{...person}
+						/>
+					))}
+				</div>
+				<Pagination
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPreviousPage={handlePreviousPage}
+					onNextPage={handleNextPage}
+				/>
 			</div>
 		</div>
 	);
 };
+
 export default SortedPeopleContainer;

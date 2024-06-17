@@ -15,11 +15,6 @@ const PersonSchema = new mongoose.Schema({
 	birthDate: {
 		type: Date,
 		required: true,
-
-		get: function (date) {
-			if (!date) return undefined; // Handle case where date is undefined or null
-			return date.toISOString().split("T")[0]; // Format the date as needed
-		},
 		validate: {
 			validator: function (date) {
 				// Check if the person is at least 18 years old

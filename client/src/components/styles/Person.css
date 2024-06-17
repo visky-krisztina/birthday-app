@@ -1,5 +1,5 @@
 .person-card {
-	width: 20rem;
+	width: 22rem;
 	background: var(--background-secondary-color);
 	border-radius: var(--border-radius);
 	display: grid;
@@ -41,7 +41,7 @@ header {
 }
 
 .card-content {
-	padding: 1rem 1rem;
+	padding: 1rem 0.5rem;
 }
 .content-center {
 	display: flex;
