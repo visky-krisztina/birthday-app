@@ -63,7 +63,9 @@ const SortedPeopleContainer = () => {
 			<h3>Who is gonna have birthday very soon?</h3>
 			<div className='displayInfo'>
 				<img src={logo} alt='birthday' className='b-icon' />
-				<div className='birthdayPerson'>{paginatedPeople.length > 0 && <Person {...upcomingUntilJanuary1[0]} />}</div>
+				<div className='birthdayPerson'>
+					{upcomingUntilJanuary1.length > 0 && <Person {...upcomingUntilJanuary1[0]} />}
+				</div>
 			</div>
 			<h4>And who is/are next in line?</h4>
 			<div className='container'>
